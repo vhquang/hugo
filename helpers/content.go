@@ -464,6 +464,8 @@ func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
 		return orgRender(ctx, c)
 	case "pandoc":
 		return getPandocContent(ctx)
+	case "ipynb":
+		return jupyterRender(ctx)
 	}
 }
 
@@ -704,6 +706,17 @@ func orgRender(ctx *RenderingContext, c ContentSpec) []byte {
 	cleanContent := bytes.Replace(content, []byte("# more"), []byte(""), 1)
 	return goorgeous.Org(cleanContent,
 		c.getHTMLRenderer(blackfriday.HTML_TOC, ctx))
+}
+
+func jupyterRender(ctx *RenderingContext) []byte {
+	jupyter, err := exec.LookPath("jupyter")
+	if err != nil {
+		jww.ERROR.Println("jupyter not found in $PATH.\n",
+			"                 Leaving notebook content unrendered.")
+		return ctx.Content
+	}
+	args := []string{"nbconvert", ctx.DocumentName, "--to markdown", "--stdout"}
+	return externallyRenderContent(ctx, jupyter, args)
 }
 
 func externallyRenderContent(ctx *RenderingContext, path string, args []string) []byte {
