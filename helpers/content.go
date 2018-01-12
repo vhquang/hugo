@@ -449,6 +449,7 @@ type RenderingContext struct {
 
 // RenderBytes renders a []byte.
 func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
+	fmt.Printf("qq0 %s\n", ctx.PageFmt)
 	switch ctx.PageFmt {
 	default:
 		return c.markdownRender(ctx)
@@ -464,7 +465,7 @@ func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
 		return orgRender(ctx, c)
 	case "pandoc":
 		return getPandocContent(ctx)
-	case "ipynb":
+	case "jupyter":
 		return jupyterRender(ctx)
 	}
 }
@@ -721,6 +722,8 @@ func jupyterRender(ctx *RenderingContext) []byte {
 
 func externallyRenderContent(ctx *RenderingContext, path string, args []string) []byte {
 	content := ctx.Content
+	jww.INFO.Println(ctx.DocumentName)
+	jww.INFO.Println(content)
 	cleanContent := bytes.Replace(content, SummaryDivider, []byte(""), 1)
 
 	cmd := exec.Command(path, args...)

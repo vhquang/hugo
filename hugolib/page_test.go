@@ -1040,6 +1040,7 @@ func TestShouldRenderContent(t *testing.T) {
 		{contentWithCommentedTextFrontmatter, true},
 		{contentWithCommentedLongFrontmatter, false},
 		{contentWithCommentedLong2Frontmatter, true},
+		{"{\n \n}", true},
 	}
 
 	for _, test := range tests {

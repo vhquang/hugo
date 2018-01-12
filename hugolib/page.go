@@ -1524,6 +1524,7 @@ func (p *Page) shouldRenderTo(f output.Format) bool {
 
 func (p *Page) determineMarkupType() string {
 	// Try markup explicitly set in the frontmatter
+	fmt.Printf("\n---frontmatter: %s, extension: %s---\n", p.Markup, p.Source.Ext())
 	p.Markup = helpers.GuessType(p.Markup)
 	if p.Markup == "unknown" {
 		// Fall back to file extension (might also return "unknown")
