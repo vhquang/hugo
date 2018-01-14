@@ -71,7 +71,6 @@ func InStringArray(arr []string, el string) bool {
 
 // GuessType attempts to guess the type of file from a given string.
 func GuessType(in string) string {
-	fmt.Printf("\nqq5, type: %s\n", in)
 	switch strings.ToLower(in) {
 	case "md", "markdown", "mdown":
 		return "markdown"
@@ -90,7 +89,6 @@ func GuessType(in string) string {
 	case "ipynb":
 		return "jupyter"
 	}
-	fmt.Printf("\nqqq, unknown %s\n", in)
 
 	return "unknown"
 }

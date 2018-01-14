@@ -467,8 +467,6 @@ func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
 		return getPandocContent(ctx)
 	case "jupyter":
 		return jupyterRender(ctx)
-	case "ipynb":
-		return jupyterRender(ctx)
 	}
 }
 
@@ -712,20 +710,25 @@ func orgRender(ctx *RenderingContext, c ContentSpec) []byte {
 }
 
 func jupyterRender(ctx *RenderingContext) []byte {
-	jupyter, err := exec.LookPath("jupyter")
-	if err != nil {
-		jww.ERROR.Println("jupyter not found in $PATH.\n",
-			"                 Leaving notebook content unrendered.")
-		return ctx.Content
-	}
-	args := []string{"nbconvert", ctx.DocumentName, "--to markdown", "--stdout"}
-	return externallyRenderContent(ctx, jupyter, args)
+	// jupyter, err := exec.LookPath("jupyter")
+	// if err != nil {
+	// 	jww.ERROR.Println("jupyter not found in $PATH.\n",
+	// 		"                 Leaving notebook content unrendered.")
+	// 	return ctx.Content
+	// }
+	// args := []string{"nbconvert", "--to", "markdown", "--stdin", "--stdout", "--log-level=ERROR"}
+
+	// cleanContent := bytes.Replace(ctx.Content, SummaryDivider, []byte(""), 1)
+	fmt.Println("qq1")
+	fmt.Printf("%v", ctx.Content)
+	fmt.Println()
+
+	return ctx.Content
+	// return externallyRenderContent(ctx, jupyter, args)
 }
 
 func externallyRenderContent(ctx *RenderingContext, path string, args []string) []byte {
 	content := ctx.Content
-	jww.INFO.Println(ctx.DocumentName)
-	jww.INFO.Println(content)
 	cleanContent := bytes.Replace(content, SummaryDivider, []byte(""), 1)
 
 	cmd := exec.Command(path, args...)

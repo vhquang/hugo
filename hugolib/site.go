@@ -1242,14 +1242,10 @@ func (s *Site) readAndProcessContent(filenames ...string) error {
 	contentProcessors := make(map[string]*siteContentProcessor)
 	sites := s.owner.langSite()
 	for k, v := range sites {
-		fmt.Printf("\n qq14 %v %v \n", k, filenames)
 		proc := newSiteContentProcessor(baseDir, len(filenames) > 0, v)
 		contentProcessors[k] = proc
 
-		fmt.Printf("\n qq16 %v \n", len(proc.pagesChan))
-
 		g.Go(func() error {
-			fmt.Printf("\n qq16 %v \n", len(proc.pagesChan))
 			return proc.process(ctx)
 		})
 	}

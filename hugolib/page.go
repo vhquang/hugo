@@ -708,6 +708,9 @@ func (p *Page) setAutoSummary() error {
 }
 
 func (p *Page) renderContent(content []byte) []byte {
+	fmt.Println("qq0.5")
+	// fmt.Println(p.rawContent)
+	fmt.Printf("%s", len(content))
 	return p.s.ContentSpec.RenderBytes(&helpers.RenderingContext{
 		Content:      content,
 		RenderTOC:    true,
@@ -998,7 +1001,6 @@ func (p *Page) subResourceTargetPathFactory(base string) string {
 
 func (p *Page) prepareForRender(cfg *BuildCfg) error {
 	s := p.s
-	fmt.Printf("\n qq8 %v ", p)
 
 	if !p.shouldRenderTo(s.rc.Format) {
 		// No need to prepare
@@ -1541,12 +1543,14 @@ func (p *Page) determineMarkupType() string {
 func (p *Page) parse(reader io.Reader) error {
 
 	psr, err := parser.ReadFrom(reader)
+	fmt.Printf("qq20 %v \n", p.Source.File.Filename())
+	fmt.Printf("qq21 %v %v \n", len(psr.Content()), err)
 	if err != nil {
 		return err
 	}
 
 	p.renderable = psr.IsRenderable()
-	fmt.Printf("\n qq6 %v %s", psr.IsRenderable(), p.Filename())
+	fmt.Printf("\n qq6 %v %s\n", psr.IsRenderable(), p.Filename())
 	p.frontmatter = psr.FrontMatter()
 	p.rawContent = psr.Content()
 	p.lang = p.Source.File.Lang()

@@ -81,12 +81,10 @@ func (s *siteContentProcessor) closeInput() {
 func (s *siteContentProcessor) process(ctx context.Context) error {
 	g1, ctx := errgroup.WithContext(ctx)
 	g2, _ := errgroup.WithContext(ctx)
-	fmt.Printf("\n qq17 %v \n", len(s.pagesChan))
 
 	// There can be only one of these per site.
 	g1.Go(func() error {
 		for p := range s.pagesChan {
-			fmt.Printf("\n qq15 %v \n", s.pagesChan)
 			if p.s != s.site {
 				panic(fmt.Sprintf("invalid page site: %v vs %v", p.s, s))
 			}

@@ -282,6 +282,7 @@ func (c *contentHandlers) handlePageContent() contentHandler {
 			p.workContent = helpers.Emojify(p.workContent)
 		}
 
+		fmt.Printf("\n qq19 %v \n", len(p.rawContent))
 		p.workContent = p.replaceDivider(p.workContent)
 		p.workContent = p.renderContent(p.workContent)
 
