@@ -467,6 +467,8 @@ func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
 		return getPandocContent(ctx)
 	case "jupyter":
 		return jupyterRender(ctx)
+	case "ipynb":
+		return jupyterRender(ctx)
 	}
 }
 

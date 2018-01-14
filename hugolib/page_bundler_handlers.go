@@ -33,7 +33,9 @@ var (
 		"rest", "rst",
 		"mmark",
 		"org",
-		"pandoc", "pdc"}
+		"pandoc", "pdc",
+		"ipynb",
+	}
 
 	contentFileExtensionsSet map[string]bool
 )
@@ -262,6 +264,7 @@ func (c *contentHandlers) parsePage(h contentHandler) contentHandler {
 
 func (c *contentHandlers) handlePageContent() contentHandler {
 	return func(ctx *handlerContext) handlerResult {
+		fmt.Printf("\n qq18 currentPage: %v \n", ctx.currentPage)
 		if ctx.supports("html", "htm") {
 			return notHandled
 		}

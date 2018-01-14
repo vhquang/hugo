@@ -438,6 +438,48 @@ activity = "exam"
 Hi.
 `
 
+const jupyterNotebook = `
+{
+	"cells": [
+		{
+			"cell_type": "markdown",
+			"metadata": {},
+			"source": [
+				"+++\n",
+				"### Front Matter for Hugo ###\n",
+				"draft = true\n",
+				"date = \"2017-09-22T00:36:57-08:00\"\n",
+				"title = \"Time Series 1s\"\n",
+				"\n",
+				"+++"
+			]
+		}
+	],
+	"metadata": {
+		"kernelspec": {
+			"display_name": "Python 3",
+			"language": "python",
+			"name": "python3"
+		},
+		"language_info": {
+			"codemirror_mode": {
+				"name": "ipython",
+				"version": 3
+			},
+			"file_extension": ".py",
+			"mimetype": "text/x-python",
+			"name": "python",
+			"nbconvert_exporter": "python",
+			"pygments_lexer": "ipython3",
+			"version": "3.5.2"
+		}
+	},
+	"nbformat": 4,
+	"nbformat_minor": 2
+}
+
+`
+
 func checkError(t *testing.T, err error, expected string) {
 	if err == nil {
 		t.Fatalf("err is nil.  Expected: %s", expected)
@@ -1040,7 +1082,7 @@ func TestShouldRenderContent(t *testing.T) {
 		{contentWithCommentedTextFrontmatter, true},
 		{contentWithCommentedLongFrontmatter, false},
 		{contentWithCommentedLong2Frontmatter, true},
-		{"{\n \n}", true},
+		{jupyterNotebook, true},
 	}
 
 	for _, test := range tests {
