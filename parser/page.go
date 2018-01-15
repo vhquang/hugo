@@ -175,10 +175,7 @@ func ReadFrom(r io.Reader) (p Page, err error) {
 
 // Construct a Page from a .ipynb notebook
 func ReadFromNotebook(r io.Reader) (p Page, err error) {
-	type notebookMetadata struct {
-		Frontmatter []byte
-	}
-	var notebook struct {
+	var notebookContent struct {
 		Metadata struct {
 			Frontmatter json.RawMessage
 		}
@@ -187,15 +184,13 @@ func ReadFromNotebook(r io.Reader) (p Page, err error) {
 	if _, err = br.ReadFrom(r); err != nil {
 		return nil, err
 	}
-	if err = json.Unmarshal(br.Bytes(), &notebook); err != nil {
+	if err = json.Unmarshal(br.Bytes(), &notebookContent); err != nil {
 		return nil, err
 	}
 	newp := new(page)
 	newp.render = true
-	newp.frontmatter = notebook.Metadata.Frontmatter
+	newp.frontmatter = notebookContent.Metadata.Frontmatter
 	newp.content = br.Bytes()
-	fmt.Printf("qq29 %s\n", notebook)
-	fmt.Printf("qq30 %s\n", newp.content)
 	return newp, nil
 }
 

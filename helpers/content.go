@@ -466,7 +466,7 @@ func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
 	case "pandoc":
 		return getPandocContent(ctx)
 	case "jupyter":
-		return jupyterRender(ctx)
+		return jupyterRender(ctx, c)
 	}
 }
 
@@ -709,22 +709,21 @@ func orgRender(ctx *RenderingContext, c ContentSpec) []byte {
 		c.getHTMLRenderer(blackfriday.HTML_TOC, ctx))
 }
 
-func jupyterRender(ctx *RenderingContext) []byte {
-	// jupyter, err := exec.LookPath("jupyter")
-	// if err != nil {
-	// 	jww.ERROR.Println("jupyter not found in $PATH.\n",
-	// 		"                 Leaving notebook content unrendered.")
-	// 	return ctx.Content
-	// }
-	// args := []string{"nbconvert", "--to", "markdown", "--stdin", "--stdout", "--log-level=ERROR"}
-
+func jupyterRender(ctx *RenderingContext, c ContentSpec) []byte {
+	jupyter, err := exec.LookPath("jupyter")
+	if err != nil {
+		jww.ERROR.Println("jupyter not found in $PATH.\n",
+			"                 Leaving notebook content unrendered.")
+		return ctx.Content
+	}
+	// TODO not sure how to structure Divider yet, leave it for later
 	// cleanContent := bytes.Replace(ctx.Content, SummaryDivider, []byte(""), 1)
-	fmt.Println("qq1")
-	fmt.Printf("%v", ctx.Content)
-	fmt.Println()
-
-	return ctx.Content
-	// return externallyRenderContent(ctx, jupyter, args)
+	args := []string{"nbconvert", "--to", "markdown", "--stdin", "--stdout",
+		"--log-level=ERROR"}
+	markdownContent := externallyRenderContent(ctx, jupyter, args)
+	ctx.Content = markdownContent
+	ctx.RenderTOC = false
+	return c.markdownRender(ctx)
 }
 
 func externallyRenderContent(ctx *RenderingContext, path string, args []string) []byte {
