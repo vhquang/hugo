@@ -1541,9 +1541,14 @@ func (p *Page) determineMarkupType() string {
 }
 
 func (p *Page) parse(reader io.Reader) error {
-
-	psr, err := parser.ReadFrom(reader)
-	fmt.Printf("qq20 %v \n", p.Source.File.Filename())
+	var psr parser.Page
+	var err error
+	if p.Source.Extension() == "ipynb" {
+		psr, err = parser.ReadFromNotebook(reader)
+	} else {
+		psr, err = parser.ReadFrom(reader)
+	}
+	// fmt.Printf("qq20 %v \n", p.Source.Extension())
 	fmt.Printf("qq21 %v %v \n", len(psr.Content()), err)
 	if err != nil {
 		return err

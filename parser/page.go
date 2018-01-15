@@ -16,6 +16,7 @@ package parser
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"regexp"
@@ -169,6 +170,32 @@ func ReadFrom(r io.Reader) (p Page, err error) {
 
 	newp.content = content
 
+	return newp, nil
+}
+
+// Construct a Page from a .ipynb notebook
+func ReadFromNotebook(r io.Reader) (p Page, err error) {
+	type notebookMetadata struct {
+		Frontmatter []byte
+	}
+	var notebook struct {
+		Metadata struct {
+			Frontmatter json.RawMessage
+		}
+	}
+	br := new(bytes.Buffer)
+	if _, err = br.ReadFrom(r); err != nil {
+		return nil, err
+	}
+	if err = json.Unmarshal(br.Bytes(), &notebook); err != nil {
+		return nil, err
+	}
+	newp := new(page)
+	newp.render = true
+	newp.frontmatter = notebook.Metadata.Frontmatter
+	newp.content = br.Bytes()
+	fmt.Printf("qq29 %s\n", notebook)
+	fmt.Printf("qq30 %s\n", newp.content)
 	return newp, nil
 }
 
