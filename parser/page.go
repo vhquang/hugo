@@ -119,6 +119,13 @@ func (p *page) Metadata() (meta interface{}, err error) {
 func ReadFrom(r io.Reader) (p Page, err error) {
 	reader := bufio.NewReader(r)
 
+	// wr = new(bytes.Buffer)
+	// if _, err = wr.ReadFrom(r); err != nil {
+	// 	fmt.Println("qq26 error")
+	// }
+	// fmt.Println("qq28")
+	// fmt.Printf("%v \n", len(wr.Bytes()))
+
 	// chomp BOM and assume UTF-8
 	if err = chompBOM(reader); err != nil && err != io.EOF {
 		return
@@ -157,6 +164,8 @@ func ReadFrom(r io.Reader) (p Page, err error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("qq22")
+	fmt.Println(content)
 
 	newp.content = content
 
@@ -412,7 +421,9 @@ func extractFrontMatterDelims(r *bufio.Reader, left, right []byte) (fm []byte, e
 func extractContent(r io.Reader) (content []byte, err error) {
 	wr := new(bytes.Buffer)
 	if _, err = wr.ReadFrom(r); err != nil {
+		fmt.Println("qq23 error")
 		return
 	}
+	fmt.Println("qq24")
 	return wr.Bytes(), nil
 }
