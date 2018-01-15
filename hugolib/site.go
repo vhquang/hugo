@@ -881,12 +881,6 @@ func (s *Site) process(config BuildCfg) (err error) {
 		return
 	}
 
-	fmt.Println("qqq13")
-	fmt.Printf("%v \n", s.absContentDir())
-	for _, p := range s.PageCollections.AllPages {
-		fmt.Printf("\n qq13 %v \n", p)
-	}
-
 	s.timerStep("load i18n")
 
 	if err := s.readAndProcessContent(); err != nil {

@@ -438,24 +438,21 @@ activity = "exam"
 Hi.
 `
 
-const jupyterNotebook = `
+const contentJupyterNotebook = `
 {
 	"cells": [
 		{
 			"cell_type": "markdown",
 			"metadata": {},
 			"source": [
-				"+++\n",
-				"### Front Matter for Hugo ###\n",
-				"draft = true\n",
-				"date = \"2017-09-22T00:36:57-08:00\"\n",
-				"title = \"Time Series 1s\"\n",
-				"\n",
-				"+++"
+				"Jupyter notebook\n"
 			]
 		}
 	],
 	"metadata": {
+		"frontmatter": {
+			"title": "Fixture for Hugo"
+		},
 		"kernelspec": {
 			"display_name": "Python 3",
 			"language": "python",
@@ -1082,7 +1079,7 @@ func TestShouldRenderContent(t *testing.T) {
 		{contentWithCommentedTextFrontmatter, true},
 		{contentWithCommentedLongFrontmatter, false},
 		{contentWithCommentedLong2Frontmatter, true},
-		{jupyterNotebook, true},
+		{contentJupyterNotebook, true},
 	}
 
 	for _, test := range tests {

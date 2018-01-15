@@ -708,9 +708,6 @@ func (p *Page) setAutoSummary() error {
 }
 
 func (p *Page) renderContent(content []byte) []byte {
-	fmt.Println("qq0.5")
-	// fmt.Println(p.rawContent)
-	fmt.Printf("%s", len(content))
 	return p.s.ContentSpec.RenderBytes(&helpers.RenderingContext{
 		Content:      content,
 		RenderTOC:    true,
@@ -1530,7 +1527,6 @@ func (p *Page) shouldRenderTo(f output.Format) bool {
 
 func (p *Page) determineMarkupType() string {
 	// Try markup explicitly set in the frontmatter
-	fmt.Printf("\n---frontmatter: %s, extension: %s---\n", p.Markup, p.Source.Ext())
 	p.Markup = helpers.GuessType(p.Markup)
 	if p.Markup == "unknown" {
 		// Fall back to file extension (might also return "unknown")
@@ -1548,14 +1544,12 @@ func (p *Page) parse(reader io.Reader) error {
 	} else {
 		psr, err = parser.ReadFrom(reader)
 	}
-	// fmt.Printf("qq20 %v \n", p.Source.Extension())
-	fmt.Printf("qq21 %v %v \n", len(psr.Content()), err)
+
 	if err != nil {
 		return err
 	}
 
 	p.renderable = psr.IsRenderable()
-	fmt.Printf("\n qq6 %v %s\n", psr.IsRenderable(), p.Filename())
 	p.frontmatter = psr.FrontMatter()
 	p.rawContent = psr.Content()
 	p.lang = p.Source.File.Lang()

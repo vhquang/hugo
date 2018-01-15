@@ -15,7 +15,6 @@ package hugolib
 
 import (
 	"bytes"
-	"fmt"
 
 	"errors"
 
@@ -82,16 +81,8 @@ func (h *HugoSites) Build(config BuildCfg, events ...fsnotify.Event) error {
 func (h *HugoSites) init(config *BuildCfg) error {
 
 	for _, s := range h.Sites {
-		fmt.Printf("\n qq9 %v", s)
-		fmt.Printf("\n qq11 %v \n", s.PageCollections)
-
 		if s.PageCollections == nil {
-			fmt.Println(" Page collection is nil")
 			s.PageCollections = newPageCollections()
-		}
-		fmt.Println("All Pages")
-		for _, p := range s.PageCollections.rawAllPages {
-			fmt.Printf("\n qq10 %v", p)
 		}
 	}
 

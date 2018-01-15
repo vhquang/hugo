@@ -449,7 +449,6 @@ type RenderingContext struct {
 
 // RenderBytes renders a []byte.
 func (c ContentSpec) RenderBytes(ctx *RenderingContext) []byte {
-	fmt.Printf("qq0 %s\n", ctx.PageFmt)
 	switch ctx.PageFmt {
 	default:
 		return c.markdownRender(ctx)
@@ -716,7 +715,7 @@ func jupyterRender(ctx *RenderingContext, c ContentSpec) []byte {
 			"                 Leaving notebook content unrendered.")
 		return ctx.Content
 	}
-	// TODO not sure how to structure Divider yet, leave it for later
+	// TODO not sure how to structure SummaryDivider yet, leave it for later
 	// cleanContent := bytes.Replace(ctx.Content, SummaryDivider, []byte(""), 1)
 	args := []string{"nbconvert", "--to", "markdown", "--stdin", "--stdout",
 		"--log-level=ERROR"}

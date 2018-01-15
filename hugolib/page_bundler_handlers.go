@@ -264,7 +264,6 @@ func (c *contentHandlers) parsePage(h contentHandler) contentHandler {
 
 func (c *contentHandlers) handlePageContent() contentHandler {
 	return func(ctx *handlerContext) handlerResult {
-		fmt.Printf("\n qq18 currentPage: %v \n", ctx.currentPage)
 		if ctx.supports("html", "htm") {
 			return notHandled
 		}
@@ -282,7 +281,6 @@ func (c *contentHandlers) handlePageContent() contentHandler {
 			p.workContent = helpers.Emojify(p.workContent)
 		}
 
-		fmt.Printf("\n qq19 %v \n", len(p.rawContent))
 		p.workContent = p.replaceDivider(p.workContent)
 		p.workContent = p.renderContent(p.workContent)
 
